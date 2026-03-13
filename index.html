@@ -14,6 +14,12 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            overflow-y: auto;
+        }
+
         :root {
             --glass-bg: rgba(20, 10, 25, 0.45);
             --glass-border: rgba(255, 182, 193, 0.15);
@@ -33,6 +39,10 @@
             font-family: 'Noto Nastaliq Urdu', serif;
             min-height: 100vh;
             overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
             background: #08070c;
             position: relative;
             display: flex;
@@ -273,6 +283,8 @@
             background: var(--glass-bg);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
+            transform: translateZ(0);
+            contain: layout paint;
             border: 1px solid var(--glass-border);
             border-radius: 28px;
             padding: 3.5rem 3rem;
@@ -297,7 +309,7 @@
         @keyframes cardReveal {
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translate3d(0, 0, 0) scale(1);
             }
         }
 
@@ -402,17 +414,40 @@
         }
 
         @media (max-width: 600px) {
-            body { padding: 1.25rem; }
+            html {
+                scroll-behavior: auto;
+            }
+
+            body { 
+                padding: 1.25rem;
+                overflow-y: scroll;
+            }
 
             .card {
                 padding: 2.25rem 1.75rem;
                 border-radius: 24px;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                background: rgba(18, 8, 22, 0.92);
+            }
+
+            .orb {
+                filter: blur(40px);
+            }
+
+            .aurora-wave {
+                opacity: 0.5;
+            }
+
+            .noise-overlay {
+                opacity: 0.01;
             }
 
             .heading { margin-bottom: 1.75rem; }
 
             .content {
                 line-height: 2.25;
+                transform: translateZ(0);
             }
 
             .content p { margin-bottom: 1.35rem; }
@@ -473,7 +508,7 @@
     </div>
 
     <script>
-        // Create particles with varied sizes
+        const isMobile = window.matchMedia('(max-width: 600px)').matches;
         const particlesContainer = document.getElementById('particles');
         const positions = [
             [10, 20], [25, 60], [45, 15], [70, 45], [85, 75], [15, 80],
@@ -481,19 +516,20 @@
             [20, 35], [40, 70], [75, 10], [30, 85], [65, 30], [50, 55]
         ];
         const sizes = ['small', 'small', 'medium', 'small', 'large', 'medium', 'small', 'large', 'medium', 'small', 'medium', 'small', 'small', 'medium', 'small', 'large', 'medium', 'small'];
+        const maxParticles = isMobile ? 6 : positions.length;
 
-        positions.forEach((pos, i) => {
+        for (let i = 0; i < maxParticles; i++) {
             const particle = document.createElement('div');
             particle.className = `particle ${sizes[i] || 'small'}`;
-            particle.style.left = pos[0] + '%';
-            particle.style.top = pos[1] + '%';
+            particle.style.left = positions[i][0] + '%';
+            particle.style.top = positions[i][1] + '%';
             particle.style.animationDelay = (i * 0.5) + 's';
             particle.style.animationDuration = (8 + Math.random() * 6) + 's';
             particlesContainer.appendChild(particle);
-        });
+        }
 
-        // Shooting stars
         function createShootingStar() {
+            if (isMobile) return;
             const star = document.createElement('div');
             star.className = 'shooting-star';
             star.style.width = (80 + Math.random() * 120) + 'px';
@@ -503,8 +539,10 @@
             setTimeout(() => star.remove(), 3000);
         }
 
-        setInterval(createShootingStar, 4000);
-        setTimeout(createShootingStar, 2000);
+        if (!isMobile) {
+            setInterval(createShootingStar, 4000);
+            setTimeout(createShootingStar, 2000);
+        }
     </script>
 </body>
 </html>
