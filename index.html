@@ -421,6 +421,19 @@
             body { 
                 padding: 1.25rem;
                 overflow-y: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .bg-base {
+                background: linear-gradient(180deg, #0f0a12 0%, #140c1a 50%, #0a0608 100%);
+            }
+
+            .bg-orbs,
+            .aurora,
+            .particles,
+            .noise-overlay,
+            .vignette {
+                display: none !important;
             }
 
             .card {
@@ -428,29 +441,33 @@
                 border-radius: 24px;
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
-                background: rgba(18, 8, 22, 0.92);
+                background: rgba(15, 8, 18, 0.98);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+                animation-duration: 0.8s;
             }
 
-            .orb {
-                filter: blur(40px);
+            .card::before {
+                opacity: 0.6;
             }
 
-            .aurora-wave {
-                opacity: 0.5;
+            .heading { 
+                margin-bottom: 1.75rem;
+                animation: none;
+                text-shadow: 0 0 20px rgba(255, 182, 193, 0.5);
             }
-
-            .noise-overlay {
-                opacity: 0.01;
-            }
-
-            .heading { margin-bottom: 1.75rem; }
 
             .content {
                 line-height: 2.25;
                 transform: translateZ(0);
             }
 
-            .content p { margin-bottom: 1.35rem; }
+            .content p { 
+                margin-bottom: 1.35rem;
+                content-visibility: auto;
+                contain-intrinsic-size: auto 60px;
+                animation: none !important;
+                opacity: 1 !important;
+            }
         }
     </style>
 </head>
@@ -510,22 +527,24 @@
     <script>
         const isMobile = window.matchMedia('(max-width: 600px)').matches;
         const particlesContainer = document.getElementById('particles');
-        const positions = [
-            [10, 20], [25, 60], [45, 15], [70, 45], [85, 75], [15, 80],
-            [55, 90], [90, 25], [35, 40], [60, 65], [5, 50], [95, 55],
-            [20, 35], [40, 70], [75, 10], [30, 85], [65, 30], [50, 55]
-        ];
-        const sizes = ['small', 'small', 'medium', 'small', 'large', 'medium', 'small', 'large', 'medium', 'small', 'medium', 'small', 'small', 'medium', 'small', 'large', 'medium', 'small'];
-        const maxParticles = isMobile ? 6 : positions.length;
+        
+        if (!isMobile) {
+            const positions = [
+                [10, 20], [25, 60], [45, 15], [70, 45], [85, 75], [15, 80],
+                [55, 90], [90, 25], [35, 40], [60, 65], [5, 50], [95, 55],
+                [20, 35], [40, 70], [75, 10], [30, 85], [65, 30], [50, 55]
+            ];
+            const sizes = ['small', 'small', 'medium', 'small', 'large', 'medium', 'small', 'large', 'medium', 'small', 'medium', 'small', 'small', 'medium', 'small', 'large', 'medium', 'small'];
 
-        for (let i = 0; i < maxParticles; i++) {
-            const particle = document.createElement('div');
-            particle.className = `particle ${sizes[i] || 'small'}`;
-            particle.style.left = positions[i][0] + '%';
-            particle.style.top = positions[i][1] + '%';
-            particle.style.animationDelay = (i * 0.5) + 's';
-            particle.style.animationDuration = (8 + Math.random() * 6) + 's';
-            particlesContainer.appendChild(particle);
+            for (let i = 0; i < positions.length; i++) {
+                const particle = document.createElement('div');
+                particle.className = `particle ${sizes[i] || 'small'}`;
+                particle.style.left = positions[i][0] + '%';
+                particle.style.top = positions[i][1] + '%';
+                particle.style.animationDelay = (i * 0.5) + 's';
+                particle.style.animationDuration = (8 + Math.random() * 6) + 's';
+                particlesContainer.appendChild(particle);
+            }
         }
 
         function createShootingStar() {
