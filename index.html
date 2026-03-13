@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رائنہ زینب</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --glass-bg: rgba(20, 10, 25, 0.45);
+            --glass-border: rgba(255, 182, 193, 0.15);
+            --glass-highlight: rgba(255, 182, 193, 0.25);
+            --glow-color: rgba(255, 182, 193, 0.9);
+            --glow-soft: rgba(255, 105, 180, 0.5);
+            --text-primary: rgba(255, 250, 245, 0.98);
+            --text-secondary: rgba(245, 230, 235, 0.9);
+            --accent-gold: #d4af37;
+            --accent-teal: #4a7c8c;
+            --accent-rose: #b8958a;
+            --accent-pink: #ffb6c1;
+            --accent-pink-deep: #e91e8c;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #08070c;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Base gradient layer */
+        .bg-base {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255, 105, 180, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 80% at 80% 80%, rgba(180, 80, 120, 0.25) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 50% at 50% 50%, rgba(120, 40, 80, 0.2) 0%, transparent 70%),
+                radial-gradient(ellipse 70% 40% at 70% 10%, rgba(255, 182, 193, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 60% at 10% 70%, rgba(200, 100, 140, 0.15) 0%, transparent 50%),
+                linear-gradient(180deg, #0f0a12 0%, #120c18 25%, #140c1a 50%, #100a14 75%, #0a0608 100%);
+            z-index: 0;
+        }
+
+        /* Animated gradient orbs */
+        .bg-orbs {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: orbFloat 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.5) 0%, rgba(255, 105, 180, 0.25) 40%, transparent 70%);
+            top: -10%;
+            left: -5%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.4) 0%, rgba(200, 80, 130, 0.2) 40%, transparent 70%);
+            top: 50%;
+            right: -10%;
+            animation-delay: -5s;
+            animation-duration: 22s;
+        }
+
+        .orb-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 192, 203, 0.45) 0%, rgba(233, 30, 140, 0.2) 40%, transparent 70%);
+            bottom: -5%;
+            left: 30%;
+            animation-delay: -10s;
+            animation-duration: 28s;
+        }
+
+        .orb-4 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, rgba(180, 100, 140, 0.2) 40%, transparent 70%);
+            top: 30%;
+            left: 50%;
+            animation-delay: -15s;
+            animation-duration: 20s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.1); }
+            50% { transform: translate(-30px, 40px) scale(0.95); }
+            75% { transform: translate(-50px, -20px) scale(1.05); }
+        }
+
+        /* Aurora wave effect */
+        .aurora {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .aurora-wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 182, 193, 0.08) 25%,
+                rgba(255, 105, 180, 0.12) 50%,
+                rgba(255, 192, 203, 0.08) 75%,
+                transparent 100%
+            );
+            top: 0;
+            animation: auroraMove 15s ease-in-out infinite;
+        }
+
+        .aurora-wave:nth-child(2) {
+            animation-delay: -5s;
+            opacity: 0.6;
+            top: 30%;
+        }
+
+        .aurora-wave:nth-child(3) {
+            animation-delay: -10s;
+            opacity: 0.4;
+            top: 60%;
+        }
+
+        @keyframes auroraMove {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+        }
+
+        /* Floating particles / stars */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 240, 245, 0.9);
+            animation: particleFloat 12s ease-in-out infinite;
+        }
+
+        .particle.small {
+            width: 2px;
+            height: 2px;
+        }
+
+        .particle.medium {
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 182, 193, 0.95);
+        }
+
+        .particle.large {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 105, 180, 0.6);
+            box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { 
+                transform: translate(0, 0) scale(1); 
+                opacity: 0.3;
+            }
+            25% { 
+                transform: translate(0, -40px) scale(1.3); 
+                opacity: 0.9;
+            }
+            50% { 
+                transform: translate(30px, 10px) scale(0.8); 
+                opacity: 0.5;
+            }
+            75% { 
+                transform: translate(-20px, 30px) scale(1.2); 
+                opacity: 0.7;
+            }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: fixed;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 182, 193, 0.7) 40%, rgba(255, 105, 180, 0.4) 70%, transparent 100%);
+            border-radius: 2px;
+            z-index: 3;
+            pointer-events: none;
+            animation: shootStar 3s linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes shootStar {
+            0% {
+                opacity: 0;
+                transform: translate(-100px, -100px) rotate(-45deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(100vw + 100px), calc(100vh + 100px)) rotate(-45deg);
+            }
+        }
+
+        /* Subtle noise overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 4;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Vignette */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 35%, rgba(15, 5, 12, 0.55) 100%);
+        }
+
+        .card {
+            position: relative;
+            z-index: 10;
+            max-width: 720px;
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 3.5rem 3rem;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 182, 193, 0.08) inset,
+                0 1px 0 rgba(255, 255, 255, 0.06) inset;
+            opacity: 0;
+            transform: translateY(40px) scale(0.98);
+            animation: cardReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px) scale(1);
+            box-shadow: 
+                0 30px 60px -15px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 182, 193, 0.15) inset,
+                0 1px 0 rgba(255, 255, 255, 0.08) inset;
+        }
+
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Card corner accent */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 182, 193, 0.3), rgba(255, 105, 180, 0.4), rgba(255, 182, 193, 0.3), transparent);
+            border-radius: 28px 28px 0 0;
+        }
+
+        .heading {
+            font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 2.25rem;
+            letter-spacing: 0.02em;
+            text-shadow: 
+                0 0 30px var(--glow-color),
+                0 0 60px rgba(255, 105, 180, 0.45),
+                0 0 90px rgba(255, 182, 193, 0.3);
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 30px var(--glow-color),
+                    0 0 60px rgba(255, 105, 180, 0.45),
+                    0 0 90px rgba(255, 182, 193, 0.3);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 45px var(--glow-color),
+                    0 0 80px rgba(255, 105, 180, 0.55),
+                    0 0 120px rgba(255, 182, 193, 0.4);
+            }
+        }
+
+        .content {
+            color: var(--text-secondary);
+            font-size: clamp(1.15rem, 2.6vw, 1.4rem);
+            line-height: 2.3;
+            letter-spacing: 0.03em;
+            text-align: justify;
+        }
+
+        .content p {
+            margin-bottom: 1.6rem;
+        }
+
+        .content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .content p {
+            opacity: 0;
+            animation: fadeInText 0.9s ease forwards;
+        }
+
+        .content p:nth-child(1) { animation-delay: 0.4s; }
+        .content p:nth-child(2) { animation-delay: 0.55s; }
+        .content p:nth-child(3) { animation-delay: 0.7s; }
+        .content p:nth-child(4) { animation-delay: 0.85s; }
+        .content p:nth-child(5) { animation-delay: 1s; }
+        .content p:nth-child(6) { animation-delay: 1.15s; }
+        .content p:nth-child(7) { animation-delay: 1.3s; }
+        .content p:nth-child(8) { animation-delay: 1.45s; }
+        .content p:nth-child(9) { animation-delay: 1.6s; }
+        .content p:nth-child(10) { animation-delay: 1.75s; }
+        .content p:nth-child(11) { animation-delay: 1.9s; }
+        .content p:nth-child(12) { animation-delay: 2.05s; }
+        .content p:nth-child(13) { animation-delay: 2.2s; }
+        .content p:nth-child(14) { animation-delay: 2.35s; }
+        .content p:nth-child(15) { animation-delay: 2.5s; }
+        .content p:nth-child(16) { animation-delay: 2.65s; }
+        .content p:nth-child(17) { animation-delay: 2.8s; }
+        .content p:nth-child(18) { animation-delay: 2.95s; }
+        .content p:nth-child(19) { animation-delay: 3.1s; }
+        .content p:nth-child(20) { animation-delay: 3.25s; }
+        .content p:nth-child(21) { animation-delay: 3.4s; }
+        .content p:nth-child(22) { animation-delay: 3.55s; }
+        .content p:nth-child(23) { animation-delay: 3.7s; }
+        .content p:nth-child(24) { animation-delay: 3.85s; }
+        .content p:nth-child(25) { animation-delay: 4s; }
+        .content p:nth-child(26) { animation-delay: 4.15s; }
+        .content p:nth-child(27) { animation-delay: 4.3s; }
+        .content p:nth-child(28) { animation-delay: 4.45s; }
+        .content p:nth-child(29) { animation-delay: 4.6s; }
+        .content p:nth-child(30) { animation-delay: 4.75s; }
+        .content p:nth-child(31) { animation-delay: 4.9s; }
+        .content p:nth-child(32) { animation-delay: 5.05s; }
+        .content p:nth-child(33) { animation-delay: 5.2s; }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 1.25rem; }
+
+            .card {
+                padding: 2.25rem 1.75rem;
+                border-radius: 24px;
+            }
+
+            .heading { margin-bottom: 1.75rem; }
+
+            .content {
+                line-height: 2.25;
+            }
+
+            .content p { margin-bottom: 1.35rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-base"></div>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="aurora">
+        <div class="aurora-wave"></div>
+        <div class="aurora-wave"></div>
+        <div class="aurora-wave"></div>
+    </div>
+    <div class="particles" id="particles"></div>
+    <div class="noise-overlay"></div>
+    <div class="vignette"></div>
+
+    <div class="card">
+        <h1 class="heading">رائنہ زینب</h1>
+        <div class="content">
+            <p>بالکل اکیلا چھوڑ گئی ہو نا مجھے۔۔۔</p>
+            <p>وہ وعدے، وہ خواب، وہ خوابوں کو حقیقت میں بدلنے کی باتیں۔۔۔</p>
+            <p>سب کچھ ادھورا چھوڑ کر چلی گئی ہو نا مجھ سے دور۔</p>
+            <p>تم نے کہا تھا کہ چاہے حالات کیسے بھی ہوں، ہم ایک دوسرے کا ساتھ نہیں چھوڑیں گے۔</p>
+            <p>اور یہ بھی کہا تھا کہ رائنہ قاسم کی ہے اور قاسم کی ہی رہے گی ہمیشہ۔</p>
+            <p>کیا وہ سب صرف باتیں تھیں؟ کیا وہ سب جھوٹ تھا؟</p>
+            <p>تم کہتی تھیں کہ میرے والدین بھی مان جائیں گے،</p>
+            <p>تم کہتی تھیں کہ میں اپنے والدین کو منا لوں گی،</p>
+            <p>اور تم نے یہ بھی کہا تھا کہ قاسم میرا ساتھ کبھی نہ چھوڑنا۔</p>
+            <p>کیا یہ سب وعدے صرف وقتی جذبات تھے؟</p>
+            <p>اگر یہ سب صرف خواب تھا تو مجھے اتنی خوبصورت امیدیں کیوں دکھائیں؟</p>
+            <p>کیا واقعی تم نے ایک لمحہ بھی نہیں سوچا کہ میرے دل پر کیا گزرے گی؟</p>
+            <p>کبھی سوچا کہ قاسم کا کتنا نقصان ہوا ہوگا؟</p>
+            <p>کبھی سوچا کہ جس شخص کے لیے میں سب سے زیادہ خاص تھی میں اسی کو اکیلا چھوڑ کر جا رہی ہوں؟</p>
+            <p>لوگ کہتے ہیں کہ وقت سب ٹھیک کر دیتا ہے،</p>
+            <p>مگر میرا وقت تو وہیں رک گیا ہے جہاں تم مجھے چھوڑ کر گئی تھیں۔</p>
+            <p>مجھ سے بہت غلطیاں ہوئیں، میں مانتا ہوں،</p>
+            <p>لیکن کیا ان غلطیوں کی سزا یہی تھی کہ تم مجھے بالکل اکیلا چھوڑ دو؟</p>
+            <p>آخر میں تم نے بس یہ کہہ دیا کہ قسمت میں ہوا تو سب ہو جائے گا۔</p>
+            <p>لیکن کوئی امید تو دے جاتی،</p>
+            <p>یا وعدے ہی نہ کرتی، یا مجھے کوئی حوصلہ ہی دے جاتی۔</p>
+            <p>اب حال یہ ہے کہ میں نہ کسی سے ملتا ہوں نہ کسی کو وقت دے پاتا ہوں۔</p>
+            <p>بس اپنی ہی سوچوں میں گم ہو کر رہ گیا ہوں۔</p>
+            <p>بس ایک سوال کا جواب دے دو…</p>
+            <p>کیا واقعی تم چلی گئی ہو؟</p>
+            <p>کیونکہ میں نے جو خواب اور وعدے سنے تھے مجھے لگتا تھا دنیا بدل سکتی ہے، زمانہ بدل سکتا ہے</p>
+            <p>لیکن میری بندی کبھی نہیں بدلے گی۔</p>
+            <p>شاید میں ہی غلط تھا…</p>
+            <p>میں بہت تکلیف میں ہوں…</p>
+            <p>بہت زیادہ تکلیف میں ہوں۔ 😭</p>
+        </div>
+    </div>
+
+    <script>
+        // Create particles with varied sizes
+        const particlesContainer = document.getElementById('particles');
+        const positions = [
+            [10, 20], [25, 60], [45, 15], [70, 45], [85, 75], [15, 80],
+            [55, 90], [90, 25], [35, 40], [60, 65], [5, 50], [95, 55],
+            [20, 35], [40, 70], [75, 10], [30, 85], [65, 30], [50, 55]
+        ];
+        const sizes = ['small', 'small', 'medium', 'small', 'large', 'medium', 'small', 'large', 'medium', 'small', 'medium', 'small', 'small', 'medium', 'small', 'large', 'medium', 'small'];
+
+        positions.forEach((pos, i) => {
+            const particle = document.createElement('div');
+            particle.className = `particle ${sizes[i] || 'small'}`;
+            particle.style.left = pos[0] + '%';
+            particle.style.top = pos[1] + '%';
+            particle.style.animationDelay = (i * 0.5) + 's';
+            particle.style.animationDuration = (8 + Math.random() * 6) + 's';
+            particlesContainer.appendChild(particle);
+        });
+
+        // Shooting stars
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.width = (80 + Math.random() * 120) + 'px';
+            star.style.left = (Math.random() * 30) + '%';
+            star.style.top = (Math.random() * 30) + '%';
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 3000);
+        }
+
+        setInterval(createShootingStar, 4000);
+        setTimeout(createShootingStar, 2000);
+    </script>
+</body>
+</html>
